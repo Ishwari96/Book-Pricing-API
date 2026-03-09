@@ -1,4 +1,3 @@
-Book Pricing API
 # Book Pricing API
 
 ## Overview
