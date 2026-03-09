@@ -14,7 +14,7 @@ tags:
   - name : Book
 
 paths:
-  /api/books/calculate-price:
+  /books/calculate-price:
     post:
       summary: Calculate the price for a basket of books
       description: >
