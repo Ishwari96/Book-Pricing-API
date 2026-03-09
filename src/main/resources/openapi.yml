@@ -1,0 +1,92 @@
+openapi: 3.0.0
+info:
+  title: Book Pricing API
+  description: API for calculating the price of a basket of books with discounts.
+  contact:
+    url: https://github.com/Ishwari96/Book-Pricing-API/tree/main
+    name: Book store
+    email: ishwaripdoshi@gmail.com
+  version: v1.1
+servers:
+  - url: https://localhost:8084/api/v1
+
+tags:
+  - name : Book
+
+paths:
+  /api/books/calculate-price:
+    post:
+      summary: Calculate the price for a basket of books
+      description: >
+        Calculates the total price for a basket of books. The basket is represented as a ShoppingBasket that contains a map where each key is a book title and the value is the number of copies.
+      operationId: calculatePrice
+      requestBody:
+        description: A ShoppingBasket DTO containing the basket details.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingBasket'
+            example:
+              basket:
+                "Clean Code (Robert Martin, 2008)": 2
+                "The Clean Coder (Robert Martin, 2011)": 2
+                "Clean Architecture  (Robert Martin, 2017)": 2
+                "Test Driven Development by Example (Kent Beck, 2003)": 1
+                "Working Effectively With Legacy Code (Michael C. Feathers, 2004)": 1
+      responses:
+        '200':
+          description: The total calculated discounted price for the basket.
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+              example: 320.0
+        '400':
+          description: Forbidden Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ShoppingBasket:
+      type: object
+      description: A shopping basket containing the list of books and their quantities.
+      properties:
+        basket:
+          type: object
+          description: A map where each key is a book title and each value is the number of copies.
+          additionalProperties:
+            type: integer
+            minimum: 0
+      required:
+        - basket
+
+    ErrorResponse:
+      type: object
+      description: A global error response structure.
+      properties:
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 400
+        error:
+          type: string
+          description: Short error description.
+          example: "Bad Request"
+        message:
+          type: string
+          description: Detailed error message.
+          example: "The input data is invalid."
+      required:
+        - status
+        - error
+        - message
