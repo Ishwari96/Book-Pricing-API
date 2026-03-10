@@ -8,13 +8,13 @@ info:
     email: ishwaripdoshi@gmail.com
   version: v1.1
 servers:
-  - url: https://localhost:8084/api/v1
+  - url: https://localhost:8084/api/v1/books/calculate-price
 
 tags:
   - name : Book
 
 paths:
-  /api/books/calculate-price:
+  /books/calculate-price:
     post:
       summary: Calculate the price for a basket of books
       description: >
