@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Service
+/**
+ * Implementation class for book price service
+ */
 
+@Service
 public class BookPricingServiceImpl implements BookPricingService {
 
     public static final int GROUP_SIZE = 0;

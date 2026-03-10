@@ -37,7 +37,7 @@ class BookPricingServiceImplIntTests {
     @Test
     @DisplayName("Integration: single book returns correct price")
     void testSingleBookPrice() {
-        double result = bookPricingService.calculatePrice(Map.of("book1", 1));
+        double result = bookPricingService.calculatePrice(Map.of("Clean Code (Robert Martin, 2008)", 1));
         assertEquals(8.0, result, 0.001);
     }
 
@@ -45,8 +45,8 @@ class BookPricingServiceImplIntTests {
     @DisplayName("Integration: group of 2 different books applies correct discount")
     void testGroupOfTwo() {
         Map<String, Integer> basket = Map.of(
-                "book1", 1,
-                "book2", 1
+                "Clean Code (Robert Martin, 2008)", 1,
+                "The Clean Coder (Robert Martin, 2011)", 1
         );
 
         double result = bookPricingService.calculatePrice(basket);
@@ -60,11 +60,11 @@ class BookPricingServiceImplIntTests {
     void testOptimizedGroups() {
         // Example: Potter Kata optimizing 5+3 → 4+4
         Map<String, Integer> basket = Map.of(
-                "book1", 2,
-                "book2", 2,
-                "book3", 2,
-                "book4", 1,
-                "book5", 1
+                "Clean Code (Robert Martin, 2008)", 2,
+                "The Clean Coder (Robert Martin, 2011)", 2,
+                "Clean Architecture (Robert Martin, 2017)", 2,
+                "Test Driven Development by Example (Kent Beck, 2003)", 1,
+                "Working Effectively With Legacy Code (Michael C. Feathers, 2004)", 1
         );
 
         double result = bookPricingService.calculatePrice(basket);

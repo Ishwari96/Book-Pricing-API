@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class BookPricingController {
 
+    /** The bookPricingService instance of service class */
     private final BookPricingService bookPricingService;
 
     public BookPricingController(BookPricingService bookPricingService) {
