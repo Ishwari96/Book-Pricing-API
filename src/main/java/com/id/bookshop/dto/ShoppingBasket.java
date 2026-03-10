@@ -1,4 +1,4 @@
-package com.id.bookshop.bookshop.model;
+package com.id.bookshop.dto;
 
 import java.util.Map;
 

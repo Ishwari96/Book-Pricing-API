@@ -1,4 +1,4 @@
-package com.id.bookshop.bookshop;
+package com.id.bookshop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

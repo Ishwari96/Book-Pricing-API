@@ -1,7 +1,7 @@
-package com.id.bookshop.bookshop.controller;
+package com.id.bookshop.controller;
 
-import com.id.bookshop.bookshop.model.ShoppingBasket;
-import com.id.bookshop.bookshop.service.BookPricingService;
+import com.id.bookshop.dto.ShoppingBasket;
+import com.id.bookshop.service.BookPricingService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

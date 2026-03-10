@@ -1,4 +1,4 @@
-package com.id.bookshop.bookshop;
+package com.id.bookshop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

@@ -1,4 +1,4 @@
-package com.id.bookshop.bookshop.service;
+package com.id.bookshop.service;
 
 
 import org.springframework.stereotype.Service;
