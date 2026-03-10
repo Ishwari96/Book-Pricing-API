@@ -59,6 +59,12 @@ In case, If you want to run the application directly from IDE. Import the projec
 
 Swagger is integrated for easy access of API. It can be accessed via `http://localhost:8444/swagger-ui/index.html#/`
 
+Actuator is enabled in order to make production ready - http://localhost:8444/actuator http://localhost:8444/actuator/health http://localhost:8444/actuator/metrics
+
+![img.png](img.png)
+
+http://localhost:8444/actuator/info
+![img_1.png](img_1.png)
 ## Authorization Details
 
 Basic authentication is implemented. You can access the api on the through following user details. This is only for demo purpose. I had to make CSRF disabled for testing purpose. It is not supposed to be used in production environment.
