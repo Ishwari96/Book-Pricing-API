@@ -18,7 +18,6 @@ public class BookPricingServiceImpl implements BookPricingService {
     public static final int GROUP_SIZE = 0;
     private final double unitPriceBook;
 
-    @Autowired
     public BookPricingServiceImpl(@Value("${book.unit.price}") double unitPrice) {
         this.unitPriceBook = unitPrice;
     }
@@ -29,6 +28,7 @@ public class BookPricingServiceImpl implements BookPricingService {
      * @param basket request for books
      * @return calculated price
      */
+    @Override
     public double calculatePrice(Map<String, Integer> basket) {
 
         if (basket == null || basket.isEmpty()) {
