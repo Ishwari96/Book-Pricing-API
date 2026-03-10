@@ -2,7 +2,6 @@ package com.id.bookshop.service;
 
 
 import com.id.bookshop.exception.EmptyBasketException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -48,17 +47,14 @@ public class BookPricingServiceImpl implements BookPricingService {
 
         Map<String, Integer> remaining = new HashMap<>(basket);
         List<Integer> groups = new ArrayList<>();
-
+        // count how many unique books are still available
         while (true) {
-            // count how many unique books are still available
-            int groupSize = GROUP_SIZE;
+            int groupSize = (int) remaining.entrySet().stream()
+                    .filter(e -> e.getValue() > 0)
+                    .peek(e -> e.setValue(e.getValue() - 1))
+                    .count();
 
-            for (Map.Entry<String, Integer> entry : remaining.entrySet()) {
-                if (entry.getValue() > GROUP_SIZE) {
-                    groupSize++;
-                    entry.setValue(entry.getValue() - 1);
-                }
-            }
+
             if (groupSize == GROUP_SIZE) {
                 break;
             }
