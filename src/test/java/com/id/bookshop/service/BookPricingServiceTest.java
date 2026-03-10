@@ -21,6 +21,7 @@ public class BookPricingServiceTest {
         assertThrows(EmptyBasketException.class,
                 () -> bookPricingService.calculatePrice(emptyBasket),
                 "Expected exception when basket is empty");
+
     }
 
     @Test
@@ -31,7 +32,7 @@ public class BookPricingServiceTest {
     }
 
     @Test
-    public void testBasketReturnsPriceForOneBook() {
+    void testBasketReturnsPriceForOneBook() {
         Map<String, Integer> basket = new HashMap<>();
 
         basket.put("Clean Code", 1);
@@ -42,7 +43,7 @@ public class BookPricingServiceTest {
     }
 
     @Test
-    public void testBasketReturnsPriceForSimilarBooks() {
+    void testBasketReturnsPriceForSimilarBooks() {
         Map<String, Integer> basket = new HashMap<>();
 
         basket.put("Clean Code", 2);
@@ -54,7 +55,7 @@ public class BookPricingServiceTest {
     }
 
     @Test
-    public void testBasketReturnsPriceFor2DifferentBooks() {
+    void testBasketReturnsPriceFor2DifferentBooks() {
         Map<String, Integer> basket = new HashMap<>();
 
         basket.put("Clean Code", 1);
@@ -67,7 +68,7 @@ public class BookPricingServiceTest {
     }
 
     @Test
-    public void testBasketReturnsPriceFor3DifferentBooks() {
+    void testBasketReturnsPriceFor3DifferentBooks() {
         Map<String, Integer> basket = new HashMap<>();
 
         basket.put("Clean Code", 1);
@@ -81,7 +82,7 @@ public class BookPricingServiceTest {
     }
 
     @Test
-    public void testBasketReturnsPriceFor4DifferentBooks() {
+    void testBasketReturnsPriceFor4DifferentBooks() {
         Map<String, Integer> basket = new HashMap<>();
 
         basket.put("Clean Code", 1);
@@ -96,7 +97,7 @@ public class BookPricingServiceTest {
     }
 
     @Test
-    public void testBasketReturnsPriceFor5DifferentBooks() {
+    void testBasketReturnsPriceFor5DifferentBooks() {
         Map<String, Integer> basket = new HashMap<>();
 
         basket.put("Clean Code", 1);
@@ -112,7 +113,7 @@ public class BookPricingServiceTest {
     }
 
     @Test
-    public void testFullSetAndOneBasketReturnsPrice() {
+    void testFullSetAndOneBasketReturnsPrice() {
         Map<String, Integer> basket = new HashMap<>();
 
         basket.put("Clean Code", 2);
@@ -128,7 +129,7 @@ public class BookPricingServiceTest {
     }
 
     @Test
-    public void testComplexUseCaseBasketReturnsPrice() {
+    void testComplexUseCaseBasketReturnsPrice() {
         Map<String, Integer> basket = new HashMap<>();
 
         basket.put("Clean Code", 2);
