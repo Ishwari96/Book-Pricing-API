@@ -1,32 +1,40 @@
 package com.id.bookshop.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.id.bookshop.exception.EmptyBasketException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 public class BookPricingServiceTest {
+
     @InjectMocks
     private BookPricingServiceImpl bookingPricingService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testEmptyBasketReturnsZero() {
-        Map<String, Integer> basket = new HashMap<>();
+    void testCalculatePriceEmptyBasketException() {
+        Map<String, Integer> emptyBasket = Map.of();
 
-        // when
-        double price = bookingPricingService.calculatePrice(basket);
+        assertThrows(EmptyBasketException.class,
+                () -> bookingPricingService.calculatePrice(emptyBasket),
+                "Expected exception when basket is empty");
+    }
 
-        // then
-        assertEquals(0.0, price, "An empty basket should cost 0 EUR");
+    @Test
+    void testCalculatePriceNullBasketException() {
+        assertThrows(EmptyBasketException.class,
+                () -> bookingPricingService.calculatePrice(null),
+                "Expected exception when basket is null");
     }
 }

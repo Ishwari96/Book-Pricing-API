@@ -18,8 +18,9 @@ public class GlobalExceptionHandler {
 
     /**
      * Handle illegal argument exception
-     * @param ex    the exception
-     * @return      error response
+     *
+     * @param ex the exception
+     * @return error response
      */
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -29,9 +30,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handle exception
-     * @param ex    the exception
-     * @return      error response
+     * Handle global exception handler.
+     *
+     * @param ex the exception
+     * @return error response
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -39,5 +41,18 @@ public class GlobalExceptionHandler {
         LOGGER.error(ex.getMessage(), ex);
         return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "INTERNAL_SERVER_ERROR",
                 "An unexpected error occurred");
+    }
+
+
+    /**
+     * Handle empty basket exception
+     *
+     * @param ex the exception
+     * @return error response
+     */
+    @ExceptionHandler(EmptyBasketException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleEmptyBasketException(EmptyBasketException ex) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "BAD_BASKET", ex.getMessage());
     }
 }
