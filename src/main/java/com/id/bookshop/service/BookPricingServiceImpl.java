@@ -12,6 +12,7 @@ import java.util.*;
 
 public class BookPricingServiceImpl implements BookPricingService {
 
+    public static final int GROUP_SIZE = 0;
     private final double unitPriceBook;
 
     @Autowired
@@ -53,16 +54,16 @@ public class BookPricingServiceImpl implements BookPricingService {
 
         while (true) {
             // count how many unique books are still available
-            int groupSize = 0;
+            int groupSize = GROUP_SIZE;
 
             for (Map.Entry<String, Integer> entry : remaining.entrySet()) {
-                if (entry.getValue() > 0) {
+                if (entry.getValue() > GROUP_SIZE) {
                     groupSize++;
                     entry.setValue(entry.getValue() - 1);
                 }
             }
 
-            if (groupSize == 0) {
+            if (groupSize == GROUP_SIZE) {
                 break;
             }
 
@@ -87,6 +88,11 @@ public class BookPricingServiceImpl implements BookPricingService {
         return optimizedGroups;
     }
 
+    /**
+     * Discount calculation logic
+     * @param uniqueBooks unique books
+     * @return            calculated price
+     */
     private double getDiscount(int uniqueBooks) {
         return switch (uniqueBooks) {
             case 2 -> 0.05;
