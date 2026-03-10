@@ -19,7 +19,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -81,6 +84,31 @@ class BookPricingControllerTest {
         assertEquals("BAD_BASKET", responseBody.error());
         assertEquals("Book basket is empty", responseBody.message());
 
+    }
+
+    @Test
+    @DisplayName("POST /books/calculate-price when books are in the basket -> 200")
+    void testApiEndpointBasket() throws Exception {
+        Map<String, Integer> request = new HashMap<String, Integer>();
+        request.put("clean", 2);
+        request.put("cleaner", 2);
+        request.put("arch", 2);
+        request.put("test", 1);
+        request.put("working", 1);
+        ShoppingBasket basket = new ShoppingBasket(request);
+        System.out.println(objectMapper.writeValueAsString(basket));
+        when(bookPricingService.calculatePrice(request)).thenReturn(320.0);
+        MvcResult result = mockMvc
+                .perform(MockMvcRequestBuilders.post("/api/v1/books/calculate-price")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(basket)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        Double response = objectMapper.readValue(
+                result.getResponse().getContentAsByteArray(),
+                Double.class);
+
+
+        assertEquals(320.0, response);
     }
 
 }
