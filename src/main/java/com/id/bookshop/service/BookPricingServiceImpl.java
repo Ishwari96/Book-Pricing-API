@@ -62,14 +62,44 @@ public class BookPricingServiceImpl implements BookPricingService {
         if (basket == null || basket.isEmpty()) {
             throw new EmptyBasketException("Book basket is empty");
         }
+        // Input validation for basket contents
+        basket.forEach((title, quantity) -> {
+            validateTitle(title);
+            validateQuantity(quantity);
+        });
 
-        List<Integer> initialGroups = getGroups(basket);
-        List<Integer> optimizedGroups = getOptimizedGroups(initialGroups);
-
-        return optimizedGroups.stream()
+        // Remove zero-quantity books for business logic
+        Map<String, Integer> filteredBasket = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : basket.entrySet()) {
+            if (entry.getValue() > 0) {
+                filteredBasket.put(entry.getKey(), entry.getValue());
+            }
+        }
+        if (filteredBasket.isEmpty()) {
+            throw new EmptyBasketException("Book basket is empty after filtering zero-quantity books");
+        }
+        List<Integer> notOptimizedGroup = getGroups(filteredBasket);
+        List<Integer> optimizedList = getOptimizedGroups(notOptimizedGroup);
+        return optimizedList.stream()
                 .mapToDouble(group -> unitPriceBook * group * (1 - getDiscount(group)))
                 .sum();
     }
+
+    private void validateTitle(String title) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Book title must not be null or empty");
+        }
+    }
+
+    private void validateQuantity(Integer quantity) {
+        if (quantity == null) {
+            throw new IllegalArgumentException("Book quantity must not be null");
+        }
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Book quantity must not be negative");
+        }
+    }
+
 
     private List<Integer> getGroups(Map<String, Integer> basket) {
 

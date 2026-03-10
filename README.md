@@ -67,7 +67,7 @@ http://localhost:8444/actuator/info
 ![img_1.png](img_1.png)
 ## Authorization Details
 
-Basic authentication is implemented. You can access the api on the through following user details. This is only for demo purpose. I had to make CSRF disabled for testing purpose. It is not supposed to be used in production environment.
+Basic authentication is implemented. You can access the api on the through following user details. This is only for demo purpose. 
 
 - username: user1
 - password: user1Pass
@@ -82,6 +82,7 @@ I defined the API contract in openapi.yml and included the standard OpenAPI gene
 - I wanted the reviewer to clearly see my own implementation, structure, and coding style.
 - The generated classes often contain extra layers and annotations that can distract from the actual business logic.
 - Instead of relying on generation tooling, I manually created the classes
+- integrations tests are written in IT package to test the API endpoints as defined in the OpenAPI contract.
 
 
 ### Pricing Assumption
