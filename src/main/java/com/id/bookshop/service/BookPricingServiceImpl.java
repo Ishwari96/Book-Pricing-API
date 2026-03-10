@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.id.bookshop.service.BookPricingServiceImpl.DiscountRate.FIVE;
+import static com.id.bookshop.service.BookPricingServiceImpl.DiscountRate.THREE;
+import static com.id.bookshop.service.BookPricingServiceImpl.DiscountRate.FOUR;
+
 /**
  * Implementation class for book price service
  */
@@ -15,6 +19,32 @@ public class BookPricingServiceImpl implements BookPricingService {
 
     public static final int GROUP_SIZE = 0;
     private final double unitPriceBook;
+
+    // Enum for discount rates
+    protected enum DiscountRate {
+        NONE(0, 0.0),
+        TWO(2, 0.05),
+        THREE(3, 0.10),
+        FOUR(4, 0.20),
+        FIVE(5, 0.25);
+
+        private final int groupSize;
+        private final double rate;
+
+        DiscountRate(int groupSize, double rate) {
+            this.groupSize = groupSize;
+            this.rate = rate;
+        }
+
+        public static double getRate(int groupSize) {
+            for (DiscountRate discountRate : values()) {
+                if (discountRate.groupSize == groupSize) {
+                    return discountRate.rate;
+                }
+            }
+            return NONE.rate;
+        }
+    }
 
     public BookPricingServiceImpl(@Value("${book.unit.price}") double unitPrice) {
         this.unitPriceBook = unitPrice;
@@ -33,14 +63,13 @@ public class BookPricingServiceImpl implements BookPricingService {
             throw new EmptyBasketException("Book basket is empty");
         }
 
-        List<Integer> notOptimizedGroup = getGroups(basket);
-        List<Integer> optimizedList = getOptimizedGroups(notOptimizedGroup);
+        List<Integer> initialGroups = getGroups(basket);
+        List<Integer> optimizedGroups = getOptimizedGroups(initialGroups);
 
-        return optimizedList.stream()
+        return optimizedGroups.stream()
                 .mapToDouble(group -> unitPriceBook * group * (1 - getDiscount(group)))
                 .sum();
     }
-
 
     private List<Integer> getGroups(Map<String, Integer> basket) {
 
@@ -66,18 +95,15 @@ public class BookPricingServiceImpl implements BookPricingService {
         return groups;
     }
 
-
     private List<Integer> getOptimizedGroups(List<Integer> groupsToBeOptimized) {
         List<Integer> optimizedGroups = new ArrayList<>(groupsToBeOptimized);
 
-        while (optimizedGroups.contains(5) && optimizedGroups.contains(3)) {
-
-            optimizedGroups.add(4);
-            optimizedGroups.add(4);
-            optimizedGroups.remove(Integer.valueOf(5));
-            optimizedGroups.remove(Integer.valueOf(3));
+        while (optimizedGroups.contains(FIVE.groupSize) && optimizedGroups.contains(THREE.groupSize)) {
+            optimizedGroups.add(FOUR.groupSize);
+            optimizedGroups.add(FOUR.groupSize);
+            optimizedGroups.remove(Integer.valueOf(FIVE.groupSize));
+            optimizedGroups.remove(Integer.valueOf(THREE.groupSize));
         }
-
         return optimizedGroups;
     }
 
@@ -88,13 +114,7 @@ public class BookPricingServiceImpl implements BookPricingService {
      * @return calculated price
      */
     private double getDiscount(int uniqueBooks) {
-        return switch (uniqueBooks) {
-            case 2 -> 0.05;
-            case 3 -> 0.10;
-            case 4 -> 0.20;
-            case 5 -> 0.25;
-            default -> 0d;
-        };
+        return DiscountRate.getRate(uniqueBooks);
     }
 
 }

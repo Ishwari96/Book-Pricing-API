@@ -27,12 +27,10 @@ public class SecurityAdapter {
      *
      * @param http the http security
      */
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) {
-
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                // CSRF is enabled by default in Spring Security 6+/Spring Boot 4
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/openapi.yaml").authenticated()
                         .anyRequest().authenticated()
@@ -42,6 +40,12 @@ public class SecurityAdapter {
         return http.build();
     }
 
+    /**
+     * User details service.
+     *
+     * @param encoder the password encoder
+     * @return the user details service
+     */
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         UserDetails user = User.builder()
