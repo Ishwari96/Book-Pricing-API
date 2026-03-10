@@ -35,18 +35,12 @@ public class BookPricingServiceImpl implements BookPricingService {
             throw new EmptyBasketException("Book basket is empty");
         }
 
-        double totalPrice = 0d;
-        double discount;
-
         List<Integer> notOptimizedGroup = getGroups(basket);
         List<Integer> optimizedList = getOptimizedGroups(notOptimizedGroup);
 
-        for (Integer group : optimizedList) {
-            discount = getDiscount(group);
-            totalPrice += unitPriceBook * group * (1 - discount);
-        }
-
-        return totalPrice;
+        return optimizedList.stream()
+                .mapToDouble(group -> unitPriceBook * group * (1 - getDiscount(group)))
+                .sum();
     }
 
 
@@ -65,11 +59,9 @@ public class BookPricingServiceImpl implements BookPricingService {
                     entry.setValue(entry.getValue() - 1);
                 }
             }
-
             if (groupSize == GROUP_SIZE) {
                 break;
             }
-
             groups.add(groupSize);
         }
 
@@ -93,8 +85,9 @@ public class BookPricingServiceImpl implements BookPricingService {
 
     /**
      * Discount calculation logic
+     *
      * @param uniqueBooks unique books
-     * @return            calculated price
+     * @return calculated price
      */
     private double getDiscount(int uniqueBooks) {
         return switch (uniqueBooks) {
