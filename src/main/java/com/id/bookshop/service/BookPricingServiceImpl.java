@@ -6,12 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
+
 public class BookPricingServiceImpl implements BookPricingService {
 
     private final double unitPriceBook;
@@ -34,7 +32,7 @@ public class BookPricingServiceImpl implements BookPricingService {
         }
 
         double totalPrice = 0d;
-        double discount = 0d;
+        double discount;
 
         List<Integer> notOptimizedGroup = getGroups(basket);
         List<Integer> optimizedList = getOptimizedGroups(notOptimizedGroup);
@@ -47,32 +45,36 @@ public class BookPricingServiceImpl implements BookPricingService {
         return totalPrice;
     }
 
+
     private List<Integer> getGroups(Map<String, Integer> basket) {
-        Map<String, Integer> copyBasket = new HashMap<String, Integer>(basket);
-        List<Integer> listOfGroups = new LinkedList<Integer>();
-        boolean hasGroups = true;
 
-        while (hasGroups) {
-            int uniqueBooksCounter = 0;
-            for (String book : copyBasket.keySet()) {
-                int numberOfSameBook = copyBasket.get(book);
-                if (numberOfSameBook >= 1) {
-                    uniqueBooksCounter++;
-                    copyBasket.replace(book, numberOfSameBook - 1);
+        Map<String, Integer> remaining = new HashMap<>(basket);
+        List<Integer> groups = new ArrayList<>();
+
+        while (true) {
+            // count how many unique books are still available
+            int groupSize = 0;
+
+            for (Map.Entry<String, Integer> entry : remaining.entrySet()) {
+                if (entry.getValue() > 0) {
+                    groupSize++;
+                    entry.setValue(entry.getValue() - 1);
                 }
+            }
 
+            if (groupSize == 0) {
+                break;
             }
-            if (uniqueBooksCounter == 0) {
-                hasGroups = false;
-            } else {
-                listOfGroups.add(uniqueBooksCounter);
-            }
+
+            groups.add(groupSize);
         }
-        return listOfGroups;
+
+        return groups;
     }
 
+
     private List<Integer> getOptimizedGroups(List<Integer> groupsToBeOptimized) {
-        List<Integer> optimizedGroups = new LinkedList<Integer>(groupsToBeOptimized);
+        List<Integer> optimizedGroups = new ArrayList<>(groupsToBeOptimized);
 
         while (optimizedGroups.contains(5) && optimizedGroups.contains(3)) {
 
