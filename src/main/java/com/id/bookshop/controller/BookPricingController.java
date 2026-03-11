@@ -2,6 +2,7 @@ package com.id.bookshop.controller;
 
 import com.id.bookshop.dto.ShoppingBasket;
 import com.id.bookshop.service.BookPricingService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class BookPricingController {
      * @return final price
      */
     @PostMapping("/books/calculate-price")
-    public double calculatePrice(@RequestBody ShoppingBasket basket) {
+    public double calculatePrice(@Valid @RequestBody ShoppingBasket basket) {
         return bookPricingService.calculatePrice(basket.basket());
     }
 

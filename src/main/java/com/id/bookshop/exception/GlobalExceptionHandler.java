@@ -30,6 +30,19 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handle empty basket exception
+     *
+     * @param ex the exception
+     * @return error response
+     */
+    @ExceptionHandler(EmptyBasketException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleEmptyBasketException(EmptyBasketException ex) {
+        LOGGER.error(ex.getMessage(), ex);
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "BAD_BASKET", ex.getMessage());
+    }
+
+    /**
      * Handle global exception handler.
      *
      * @param ex the exception
@@ -43,16 +56,4 @@ public class GlobalExceptionHandler {
                 "An unexpected error occurred");
     }
 
-
-    /**
-     * Handle empty basket exception
-     *
-     * @param ex the exception
-     * @return error response
-     */
-    @ExceptionHandler(EmptyBasketException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleEmptyBasketException(EmptyBasketException ex) {
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "BAD_BASKET", ex.getMessage());
-    }
 }

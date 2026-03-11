@@ -83,7 +83,6 @@ class BookPricingControllerTest {
         assertEquals(400, responseBody.status());
         assertEquals("BAD_BASKET", responseBody.error());
         assertEquals("Book basket is empty", responseBody.message());
-
     }
 
     @Test
@@ -106,7 +105,6 @@ class BookPricingControllerTest {
         Double response = objectMapper.readValue(
                 result.getResponse().getContentAsByteArray(),
                 Double.class);
-
 
         assertEquals(320.0, response);
     }
