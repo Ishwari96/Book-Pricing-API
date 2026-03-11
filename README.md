@@ -67,7 +67,7 @@ http://localhost:8444/actuator/info
 ![img_1.png](img_1.png)
 ## Authorization Details
 
-Basic authentication is implemented. You can access the api on the through following user details. This is only for demo purpose. 
+Basic authentication is implemented. You can access the api on the through following user details. This is only for demo purpose. I have disabled the case sensitivity for username and password for testing purpose. It is not supposed to be used in production environment.
 
 - username: user1
 - password: user1Pass

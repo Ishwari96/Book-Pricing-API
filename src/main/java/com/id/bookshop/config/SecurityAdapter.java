@@ -30,7 +30,7 @@ public class SecurityAdapter {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // CSRF is enabled by default in Spring Security 6+/Spring Boot 4
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/openapi.yaml").authenticated()
                         .anyRequest().authenticated()
